@@ -7,12 +7,48 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // Show all products
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::latest()->get();
-        return view('products.index', compact('products'));
+        $query = Product::query();
+
+        // Filters
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        if ($request->filled('condition')) {
+            $query->where('condition', $request->condition);
+        }
+
+        if ($request->boolean('in_stock')) {
+            $query->where('stock', '>', 0);
+        }
+
+        if ($request->filled('q')) {
+            $query->where('name', 'like', '%' . $request->q . '%');
+        }
+
+        // Sorting
+        $sort = $request->get('sort', 'newest');
+        match ($sort) {
+            'price_asc'  => $query->orderBy('price', 'asc'),
+            'price_desc' => $query->orderBy('price', 'desc'),
+            'name_asc'   => $query->orderBy('name', 'asc'),
+            default      => $query->latest(),
+        };
+
+        $products = $query->get();
+
+        // For dropdown options (unique categories from DB)
+        $categories = Product::query()
+            ->select('category')
+            ->distinct()
+            ->orderBy('category')
+            ->pluck('category');
+
+        return view('products.index', compact('products', 'categories', 'sort'));
     }
+
 
     // Show add product form
     public function create()
