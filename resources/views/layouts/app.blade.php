@@ -21,6 +21,7 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('products.index') }}">Products</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('products.create') }}">Add Product</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('enquiries.create') }}">Enquiry</a></li>
             </ul>
         </div>
     </div>
