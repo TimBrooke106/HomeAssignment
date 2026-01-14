@@ -1,24 +1,25 @@
 @extends('layouts.app')
 
-@section('title','Add Product')
+@section('title','Edit Product')
 
 @section('content')
-<h2 class="mb-3">Add Product</h2>
+<h2 class="mb-3">Edit Product</h2>
 
-<form method="POST" action="{{ route('products.store') }}" class="card p-4">
+<form method="POST" action="{{ route('products.update', $product) }}" class="card p-4">
     @csrf
+    @method('PUT')
 
     <div class="mb-3">
         <label class="form-label">Name</label>
         <input name="name" class="form-control @error('name') is-invalid @enderror"
-               value="{{ old('name') }}">
+               value="{{ old('name', $product->name) }}">
         @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
     <div class="mb-3">
         <label class="form-label">Category</label>
         <input name="category" class="form-control @error('category') is-invalid @enderror"
-               value="{{ old('category') }}" placeholder="Suspension, Exhaust, Engine...">
+               value="{{ old('category', $product->category) }}">
         @error('category') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
@@ -27,7 +28,7 @@
             <label class="form-label">Price (£)</label>
             <input name="price" type="number" step="0.01"
                    class="form-control @error('price') is-invalid @enderror"
-                   value="{{ old('price') }}">
+                   value="{{ old('price', $product->price) }}">
             @error('price') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
 
@@ -35,16 +36,15 @@
             <label class="form-label">Stock</label>
             <input name="stock" type="number"
                    class="form-control @error('stock') is-invalid @enderror"
-                   value="{{ old('stock', 0) }}">
+                   value="{{ old('stock', $product->stock) }}">
             @error('stock') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
 
         <div class="col-md-4 mb-3">
             <label class="form-label">Condition</label>
             <select name="condition" class="form-select @error('condition') is-invalid @enderror">
-                <option value="">Select...</option>
-                <option value="new" @selected(old('condition') === 'new')>New</option>
-                <option value="used" @selected(old('condition') === 'used')>Used</option>
+                <option value="new" @selected(old('condition', $product->condition) === 'new')>New</option>
+                <option value="used" @selected(old('condition', $product->condition) === 'used')>Used</option>
             </select>
             @error('condition') <div class="invalid-feedback">{{ $message }}</div> @enderror
         </div>
@@ -53,12 +53,12 @@
     <div class="mb-3">
         <label class="form-label">Description (optional)</label>
         <textarea name="description" rows="4"
-                  class="form-control @error('description') is-invalid @enderror">{{ old('description') }}</textarea>
+                  class="form-control @error('description') is-invalid @enderror">{{ old('description', $product->description) }}</textarea>
         @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
 
     <div class="d-flex gap-2">
-        <button class="btn btn-primary">Save Product</button>
+        <button class="btn btn-primary">Update Product</button>
         <a class="btn btn-secondary" href="{{ route('products.index') }}">Cancel</a>
     </div>
 </form>
