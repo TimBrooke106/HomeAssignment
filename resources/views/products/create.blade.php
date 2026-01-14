@@ -1,65 +1,52 @@
 @extends('layouts.app')
 
-@section('title','Add Product')
+@section('title','Enquiry')
 
 @section('content')
-<h2 class="mb-3">Add Product</h2>
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="h4 fw-bold mb-1">Send an Enquiry</h2>
+                <p class="text-muted mb-4">Ask about fitment, stock, or delivery.</p>
 
-<form method="POST" action="{{ route('products.store') }}" class="card p-4">
-    @csrf
+                <form method="POST" action="{{ route('enquiries.store') }}">
+                    @csrf
 
-    <div class="mb-3">
-        <label class="form-label">Name</label>
-        <input name="name" class="form-control @error('name') is-invalid @enderror"
-               value="{{ old('name') }}">
-        @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input name="name" value="{{ old('name') }}"
+                               class="form-control @error('name') is-invalid @enderror">
+                        @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
 
-    <div class="mb-3">
-        <label class="form-label">Category</label>
-        <input name="category" class="form-control @error('category') is-invalid @enderror"
-               value="{{ old('category') }}" placeholder="Suspension, Exhaust, Engine...">
-        @error('category') <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input name="email" value="{{ old('email') }}"
+                               class="form-control @error('email') is-invalid @enderror">
+                        @error('email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
 
-    <div class="row">
-        <div class="col-md-4 mb-3">
-            <label class="form-label">Price (£)</label>
-            <input name="price" type="number" step="0.01"
-                   class="form-control @error('price') is-invalid @enderror"
-                   value="{{ old('price') }}">
-            @error('price') <div class="invalid-feedback">{{ $message }}</div> @enderror
-        </div>
+                    <div class="mb-3">
+                        <label class="form-label">Message</label>
+                        <textarea name="message" rows="4"
+                                  class="form-control @error('message') is-invalid @enderror">{{ old('message') }}</textarea>
+                        @error('message') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
 
-        <div class="col-md-4 mb-3">
-            <label class="form-label">Stock</label>
-            <input name="stock" type="number"
-                   class="form-control @error('stock') is-invalid @enderror"
-                   value="{{ old('stock', 0) }}">
-            @error('stock') <div class="invalid-feedback">{{ $message }}</div> @enderror
-        </div>
+                    <div class="mb-3">
+                        <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key') }}"></div>
+                        @error('g-recaptcha-response')
+                            <div class="text-danger small mt-2">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-        <div class="col-md-4 mb-3">
-            <label class="form-label">Condition</label>
-            <select name="condition" class="form-select @error('condition') is-invalid @enderror">
-                <option value="">Select...</option>
-                <option value="new" @selected(old('condition') === 'new')>New</option>
-                <option value="used" @selected(old('condition') === 'used')>Used</option>
-            </select>
-            @error('condition') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    <button class="btn btn-primary">Send Enquiry</button>
+                </form>
+            </div>
         </div>
     </div>
+</div>
 
-    <div class="mb-3">
-        <label class="form-label">Description (optional)</label>
-        <textarea name="description" rows="4"
-                  class="form-control @error('description') is-invalid @enderror">{{ old('description') }}</textarea>
-        @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
-
-    <div class="d-flex gap-2">
-        <button class="btn btn-primary">Save Product</button>
-        <a class="btn btn-secondary" href="{{ route('products.index') }}">Cancel</a>
-    </div>
-</form>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection

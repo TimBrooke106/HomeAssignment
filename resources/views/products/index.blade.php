@@ -19,14 +19,15 @@
         @foreach($products as $product)
             <div class="col-md-4">
                 <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $product->name }}</h5>
-                        <p class="card-text mb-1"><strong>Category:</strong> {{ $product->category }}</p>
-                        <p class="card-text mb-1"><strong>Condition:</strong> {{ strtoupper($product->condition) }}</p>
-                        <p class="card-text"><strong>Price:</strong> £{{ number_format($product->price, 2) }}</p>
-                        <span class="badge bg-{{ $product->stock > 0 ? 'success' : 'danger' }}">
+                    <div class="card h-100 shadow-sm">
+
+                        <h5 class="card-title fw-semibold">{{ $product->name }}</h5>
+                        <div class="text-muted small mb-2">{{ $product->category }} • {{ strtoupper($product->condition) }}</div>
+                        <div class="fs-5 fw-bold mb-2">£{{ number_format($product->price, 2) }}</div>
+                        <span class="badge {{ $product->stock > 0 ? 'text-bg-success' : 'text-bg-danger' }}">
                             {{ $product->stock > 0 ? 'In Stock' : 'Out of Stock' }}
                         </span>
+
                         <form method="GET" action="{{ route('products.index') }}" class="card p-3 mb-3">
                             <div class="row g-2 align-items-end">
 
