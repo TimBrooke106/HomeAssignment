@@ -5,7 +5,7 @@
 @section('content')
 <h2 class="mb-3">Edit Product</h2>
 
-<form method="POST" action="{{ route('products.update', $product) }}" class="card p-4">
+<form method="POST" action="{{ route('products.update',$product) }}" enctype="multipart/form-data" class="card p-4">
     @csrf
     @method('PUT')
 
@@ -56,6 +56,16 @@
                   class="form-control @error('description') is-invalid @enderror">{{ old('description', $product->description) }}</textarea>
         @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
     </div>
+
+    @if($product->image)
+        <img src="{{ asset('storage/'.$product->image) }}" class="img-fluid rounded mb-3" style="max-height:200px">
+    @endif
+
+    <div class="mb-3">
+        <label class="form-label">Change Image</label>
+        <input type="file" name="image" class="form-control">
+    </div>
+
 
     <div class="d-flex gap-2">
         <button class="btn btn-primary">Update Product</button>

@@ -66,7 +66,12 @@ class ProductController extends Controller
             'stock' => ['required', 'integer', 'min:0'],
             'condition' => ['required', 'in:new,used'],
             'description' => ['nullable', 'string', 'max:2000'],
+            'image' => ['nullable','image','max:2048'],
         ]);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('products', 'public');
+        }
 
         Product::create($data);
 
@@ -96,6 +101,10 @@ class ProductController extends Controller
             'condition' => ['required', 'in:new,used'],
             'description' => ['nullable', 'string', 'max:2000'],
         ]);
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('products', 'public');
+        }
+
 
         $product->update($data);
 
