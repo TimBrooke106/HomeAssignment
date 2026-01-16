@@ -6,9 +6,9 @@
 <div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
     <div class="row align-items-center">
         <div class="col-lg-7">
-            <h1 class="display-6 fw-bold mb-2">Honda Civic EK3 Parts</h1>
+            <h1 class="display-6 fw-bold mb-2">Aftermarket Parts</h1>
             <p class="lead text-muted mb-4">
-                A simple parts catalogue for EK3 owners. Browse parts, view details, and send enquiries.
+                A simple parts catalogue. Browse parts, view details, and send enquiries.
             </p>
             <div class="d-flex gap-2">
                 <a href="{{ route('products.index') }}" class="btn btn-primary btn-lg">Browse Products</a>
@@ -22,7 +22,7 @@
                     <h5 class="card-title fw-semibold">Popular Categories</h5>
                     <div class="d-flex flex-wrap gap-2 mt-3">
                         <span class="badge text-bg-dark">Suspension</span>
-                        <span class="badge text-bg-dark">Exhaust</span>
+                        <span class="badge text-bg-dark">Fluids</span>
                         <span class="badge text-bg-dark">Engine</span>
                         <span class="badge text-bg-dark">Brakes</span>
                         <span class="badge text-bg-dark">Interior</span>

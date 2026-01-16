@@ -51,17 +51,16 @@
                 <hr>
 
                 <div class="d-flex gap-2">
+                    <a href="{{ route('enquiries.create', ['product' => $product->id]) }}" class="btn btn-primary">Enquire</a>
+
                     <a href="{{ route('products.edit', $product) }}" class="btn btn-warning">Edit</a>
 
                     <form method="POST" action="{{ route('products.destroy', $product) }}">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger"
-                                onclick="return confirm('Delete this product?')">
-                            Delete
-                        </button>
+                        @csrf @method('DELETE')
+                        <button class="btn btn-danger">Delete</button>
                     </form>
                 </div>
+
             </div>
         </div>
 

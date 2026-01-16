@@ -21,5 +21,20 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        $categories = [
+            'Brakes',
+            'Suspension',
+            'Cooling',
+            'Intake',
+            'Drivetrain',
+            'Interior',
+            'Exterior',
+            'Fluids & Filters',
+        ];
+
+        foreach ($categories as $name) {
+            \App\Models\Category::firstOrCreate(['name' => $name]);
+        }
     }
 }
