@@ -21,14 +21,14 @@
 
         <div class="col-md-3">
             <label class="form-label">Category</label>
-            <select name="category" class="form-select">
-                <option value="">All</option>
-                @foreach($categories as $cat)
-                    <option value="{{ $cat }}" @selected(request('category') === $cat)>
-                        {{ $cat }}
-                    </option>
-                @endforeach
-            </select>
+                <select name="category" class="form-select">
+                    <option value="">All</option>
+                    @foreach($categories as $id => $name)
+                        <option value="{{ $id }}" @selected((string)request('category') === (string)$id)>
+                            {{ $name }}
+                        </option>
+                    @endforeach
+                </select>
         </div>
 
         <div class="col-md-2">
@@ -91,7 +91,7 @@
                         <h5 class="card-title fw-semibold">{{ $product->name }}</h5>
 
                         <div class="text-muted small mb-2">
-                            {{ $product->category }} • {{ strtoupper($product->condition) }}
+                            {{ $product->category?->name ?? 'Uncategorised' }} • {{ strtoupper($product->condition) }}
                         </div>
 
                         <div class="fs-5 fw-bold mb-2">

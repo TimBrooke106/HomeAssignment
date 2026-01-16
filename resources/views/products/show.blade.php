@@ -26,7 +26,7 @@
         <div class="d-flex justify-content-between align-items-start mb-3">
             <div>
                 <h2 class="mb-1">{{ $product->name }}</h2>
-                <div class="text-muted">{{ $product->category }} • {{ strtoupper($product->condition) }}</div>
+                <div class="text-muted">{{ $product->category?->name ?? 'Uncategorised' }} • {{ strtoupper($product->condition) }}</div>
             </div>
             <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">Back</a>
         </div>

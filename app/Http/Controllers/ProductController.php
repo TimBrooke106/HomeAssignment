@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers; 
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\Category;
+
 
 class ProductController extends Controller
 {
@@ -11,10 +13,14 @@ class ProductController extends Controller
     {
         $query = Product::query();
 
+        $query->with('category');
+
+
         // Filters
         if ($request->filled('category')) {
-            $query->where('category', $request->category);
+            $query->where('category_id', $request->category);
         }
+
 
         if ($request->filled('condition')) {
             $query->where('condition', $request->condition);
@@ -40,11 +46,8 @@ class ProductController extends Controller
         $products = $query->get();
 
         // For dropdown options (unique categories from DB)
-        $categories = Product::query()
-            ->select('category')
-            ->distinct()
-            ->orderBy('category')
-            ->pluck('category');
+        $categories = Category::orderBy('name')->pluck('name', 'id');
+
 
         return view('products.index', compact('products', 'categories', 'sort'));
     }
@@ -53,21 +56,24 @@ class ProductController extends Controller
     // Show add product form
     public function create()
     {
-        return view('products.create');
+        $categories = Category::orderBy('name')->get();
+        return view('products.create', compact('categories'));
     }
 
     // Store new product
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:120'],
-            'category' => ['required', 'string', 'max:50'],
-            'price' => ['required', 'numeric', 'min:0'],
-            'stock' => ['required', 'integer', 'min:0'],
-            'condition' => ['required', 'in:new,used'],
-            'description' => ['nullable', 'string', 'max:2000'],
+            'name' => ['required','string','max:120'],
+            'category_id' => ['required','exists:categories,id'],
+            'price' => ['required','numeric','min:0'],
+            'stock' => ['required','integer','min:0'],
+            'condition' => ['required','in:new,used'],
+            'description' => ['nullable','string','max:2000'],
             'image' => ['nullable','image','max:2048'],
         ]);
+
+
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('products', 'public');
@@ -87,20 +93,24 @@ class ProductController extends Controller
     // Show edit form
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));
+        $categories = Category::orderBy('name')->get();
+        return view('products.edit', compact('product', 'categories'));
     }
+
 
     // Update product
     public function update(Request $request, Product $product)
     {
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:120'],
-            'category' => ['required', 'string', 'max:50'],
-            'price' => ['required', 'numeric', 'min:0'],
-            'stock' => ['required', 'integer', 'min:0'],
-            'condition' => ['required', 'in:new,used'],
-            'description' => ['nullable', 'string', 'max:2000'],
+            'name' => ['required','string','max:120'],
+            'category_id' => ['required','exists:categories,id'],
+            'price' => ['required','numeric','min:0'],
+            'stock' => ['required','integer','min:0'],
+            'condition' => ['required','in:new,used'],
+            'description' => ['nullable','string','max:2000'],
+            'image' => ['nullable','image','max:2048'],
         ]);
+
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('products', 'public');
         }

@@ -17,11 +17,22 @@
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Category</label>
-        <input name="category" class="form-control @error('category') is-invalid @enderror"
-               value="{{ old('category', $product->category) }}">
-        @error('category') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        <label for="category_id" class="form-label">Category</label>
+
+        <select name="category_id" id="category_id" class="form-select">
+            @foreach ($categories as $cat)
+                <option value="{{ $cat->id }}"
+                    @selected(old('category_id', $product->category_id) == $cat->id)>
+                    {{ $cat->name }}
+                </option>
+            @endforeach
+        </select>
+
+        @error('category_id')
+            <div class="invalid-feedback d-block">{{ $message }}</div>
+        @enderror
     </div>
+
 
     <div class="row">
         <div class="col-md-4 mb-3">

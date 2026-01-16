@@ -33,12 +33,17 @@
                     {{-- Category --}}
                     <div class="mb-3">
                         <label class="form-label">Category</label>
-                        <input name="category"
-                               value="{{ old('category') }}"
-                               class="form-control @error('category') is-invalid @enderror"
-                               placeholder="Suspension, Exhaust, Engine...">
-                        @error('category') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        <select name="category_id" class="form-select @error('category_id') is-invalid @enderror">
+                            <option value="">Select…</option>
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat->id }}" @selected(old('category_id') == $cat->id)>
+                                    {{ $cat->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('category_id') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
+
 
                     <div class="row">
                         {{-- Price --}}
