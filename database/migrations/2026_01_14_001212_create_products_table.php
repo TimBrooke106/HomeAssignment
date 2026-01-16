@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('category');
             $table->decimal('price', 8, 2);
             $table->integer('stock');
             $table->enum('condition', ['new', 'used']);

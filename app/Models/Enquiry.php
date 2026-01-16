@@ -7,4 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Enquiry extends Model
 {
     protected $fillable = ['name', 'email', 'message'];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
 }

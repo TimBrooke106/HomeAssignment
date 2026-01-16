@@ -19,4 +19,16 @@ class Product extends Model
             }
         });
     }
+
+    public function enquiries()
+    {
+        return $this->hasMany(Enquiry::class);
+    }
+    
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+
 }
